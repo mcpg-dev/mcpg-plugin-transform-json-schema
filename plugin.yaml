@@ -1,0 +1,17 @@
+schema: mcpg.dev/plugin/v1
+id: dev.mcpg.transform.json-schema
+name: JSON Schema Validation Transform
+license: Apache-2.0
+description: |
+  Validates a JSON value against an operator-supplied inline JSON Schema. A
+  valid value passes through unchanged; an invalid value yields a transform
+  error listing the failing instance paths (bounded by max_errors). As a global
+  transform it validates tool arguments (pre-dispatch) and/or results
+  (post-dispatch); as a pipeline `plugin_transform` step it validates the
+  previous step's output. An optional JSON Pointer (`pointer`) validates only a
+  sub-field. Pure compute, fully offline — only inline schemas (in-document
+  $ref) are supported; no remote $ref is fetched.
+class: transform
+runtime: native-cdylib-v1
+protocol_version: "1.0"
+required_capabilities: []

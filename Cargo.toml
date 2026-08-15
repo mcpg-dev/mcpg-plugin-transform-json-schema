@@ -1,0 +1,33 @@
+[package]
+name = "mcpg-plugin-transform-json-schema"
+version = "0.1.0-alpha.15"
+license = "Apache-2.0"
+edition = "2024"
+description = """
+JSON Schema validation transform plugin for mcpg. Validates a JSON value
+against an operator-supplied inline JSON Schema; a valid value passes through
+unchanged, an invalid value yields a precise transform error listing the
+failing instance paths. Usable as a global pre/post-dispatch transform and as
+a pipeline `plugin_transform` step; an optional JSON Pointer validates a
+sub-field. Pure compute, fully offline (no remote $ref fetch); the gateway core
+never depends on it.
+"""
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[features]
+default = []
+cdylib-export = []
+static-firstparty = []
+
+[dependencies]
+mcpg-plugin-protocol = { git = "https://github.com/mcpg-dev/mcpg-plugin-protocol", tag = "v0.1.0-beta.13", version = "=0.1.0-beta.13" }
+mcpg-plugin-sdk      = { git = "https://github.com/mcpg-dev/mcpg-plugin-sdk", tag = "v0.1.0-beta.13", version = "=0.1.0-beta.13", features = ["static-firstparty"] }
+serde      = { version = "1", features = ["derive"] }
+serde_json = "1"
+# Pure-Rust JSON Schema validator. default-features OFF on purpose: the 0.28
+# defaults pull resolve-http (reqwest) + a TLS stack — we validate ONLY inline
+# schemas (in-document $ref works offline), so none of that is needed and the
+# deny.toml / advisory surface stays minimal.
+jsonschema = { version = "0.28", default-features = false }
