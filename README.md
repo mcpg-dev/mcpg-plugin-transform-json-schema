@@ -29,7 +29,7 @@ named by a pipeline `plugin_transform` step for a single binding.
 plugins:
   - id: dev.mcpg.transform.json-schema
     class: transform
-    source: { oci: ghcr.io/mcpg-dev/source-code/plugins/transform-json-schema:protocol-1 }
+    source: { oci: ghcr.io/mcpg-dev/plugins/transform-json-schema }
     config:
       phase: arguments
       schema:
